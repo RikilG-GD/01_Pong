@@ -3,15 +3,23 @@ Class = require 'class'
 Ball = Class{}
 
 function Ball:init(x, y, width, height)
-    --center position of the ball
+    -- save original coordinates
+    self.origX = x
+    self.origY = y
+    -- center position of the ball
     self.x = x
     self.y = y
     -- size of the ball
     self.width = width
     self.height = height
     -- speed of the ball
-    self.dx = 200
-    self.dy = 200
+    self.dx = 250
+    self.dy = 250
+end
+
+function Ball:reset()
+    self.x = self.origX
+    self.y = self.origY
 end
 
 function Ball:collides(obj)
@@ -26,6 +34,9 @@ function Ball:collides(obj)
     objBottom = obj.y + obj.height/2
 
     if ballLeft <= objRight and ballRight >= objLeft and ballTop <= objBottom and ballBottom >= objTop then
+        -- increase speed and return true
+        self.dx = self.dx + 10
+        self.dy = self.dy + 10
         return true
     else
         return false
@@ -36,12 +47,21 @@ function Ball:update(dt)
     self.x = self.x + self.dx * dt
     self.y = self.y + self.dy * dt
 
-    if self.y+self.height/2 > WINDOW_HEIGHT or self.y-self.height/2 < 0 then
+    -- if out of bounds, adjust the coordinates
+    self.y = math.min(math.max(self.y, self.height/2), WINDOW_HEIGHT - self.height/2)
+
+    if self.y+self.height/2 >= WINDOW_HEIGHT or self.y-self.height/2 <= 0 then
         self.dy = -self.dy
     end
 
-    if self.x+self.width/2 > WINDOW_WIDTH or self.x-self.width/2 < 0 then
+    if currentState ~= gameState.play and (self.x+self.width/2 > WINDOW_WIDTH or self.x-self.width/2 < 0) then
         self.dx = -self.dx
+    end
+
+    if currentState == gameState.play and self.x+self.width/2 > WINDOW_WIDTH then
+        currentState = gameState.winPlayer1
+    elseif currentState == gameState.play and self.x-self.width/2 < 0 then
+        currentState = gameState.winPlayer2
     end
 end
 
