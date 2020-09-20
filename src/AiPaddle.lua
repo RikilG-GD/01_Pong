@@ -24,9 +24,9 @@ end
 
 function AiPaddle:update(dt)
     direction = 'none'
-    if (ball.dx < 0 and ball.y > self.y) or (ball.dx > 0 and self.y < WINDOW_HEIGHT/2) then
+    if (ball.dx < 0 and ball.y > self.y) or (ball.dx > 0 and self.y < WINDOW_HEIGHT/2-10) then
         direction = 'down'
-    elseif (ball.dx < 0 and ball.y < self.y) or (ball.dx > 0 and self.y > WINDOW_HEIGHT/2) then
+    elseif (ball.dx < 0 and ball.y < self.y) or (ball.dx > 0 and self.y > WINDOW_HEIGHT/2+10) then
         direction = 'up'
     end
 

@@ -20,6 +20,8 @@ end
 function Ball:reset()
     self.x = self.origX
     self.y = self.origY
+    self.dx = 250
+    self.dy = 250
 end
 
 function Ball:collides(obj)
@@ -35,8 +37,8 @@ function Ball:collides(obj)
 
     if ballLeft <= objRight and ballRight >= objLeft and ballTop <= objBottom and ballBottom >= objTop then
         -- increase speed and return true
-        self.dx = self.dx + 10
-        self.dy = self.dy + 10
+        self.dx = self.dx + 35
+        self.dy = self.dy + 35
         return true
     else
         return false
@@ -51,6 +53,7 @@ function Ball:update(dt)
     self.y = math.min(math.max(self.y, self.height/2), WINDOW_HEIGHT - self.height/2)
 
     if self.y+self.height/2 >= WINDOW_HEIGHT or self.y-self.height/2 <= 0 then
+        sounds['wallHit']:play()
         self.dy = -self.dy
     end
 

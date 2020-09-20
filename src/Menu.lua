@@ -49,4 +49,8 @@ function Menu:render()
     love.graphics.print(self.options[(self.selection+1)%self.optionsSize+1], frameWidth/3+frameX+20, frameY+4*frameHeight/6-15)
     love.graphics.setColor(0, 0, 0, 1)
     love.graphics.print(self.options[self.selection+1], frameWidth/3+frameX+20, frameY+3*frameHeight/6-15)
+
+    love.graphics.setColor(1, 1, 1, 1)
+    love.graphics.setFont(fonts.retroS)
+    love.graphics.printf('<Up> and <Down> arrow-keys to control the right paddle.\n<W> and <S> keys to control the left paddle (multiplayer).\n<Esc> to pause game. <Enter> or <Space> to select option.', 115, 440, 800, 'center')
 end
