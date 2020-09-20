@@ -21,7 +21,9 @@ sounds = {
     ['background'] = love.audio.newSource('assets/sounds/Background.mp3', 'static'),
     ['death'] = love.audio.newSource('assets/sounds/Death.wav', 'static'),
     ['powerUp'] = love.audio.newSource('assets/sounds/PowerUp.wav', 'static'),
-    ['gameOver'] = love.audio.newSource('assets/sounds/GameOver.wav', 'static')
+    ['gameOver'] = love.audio.newSource('assets/sounds/GameOver.wav', 'static'),
+    ['menuOpen'] = love.audio.newSource('assets/sounds/MenuOpen.wav', 'static'),
+    ['menuOption'] = love.audio.newSource('assets/sounds/MenuOption.wav', 'static')
 }
 
 gameState = {
@@ -39,6 +41,7 @@ gameState = {
 function love.keypressed(key)
     if key == 'escape' then
         if currentState == gameState.play then
+            sounds['menuOpen']:play()
             currentState = gameState.pauseMenu
         elseif currentState == gameState.pauseMenu then
             currentState = gameState.play

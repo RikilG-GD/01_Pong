@@ -2,6 +2,13 @@ Class = require 'class'
 
 Ball = Class{}
 
+function randDir(val)
+    if math.random(-5, 5) <= 0 then
+        return -val
+    end
+    return val
+end
+
 function Ball:init(x, y, width, height)
     -- save original coordinates
     self.origX = x
@@ -13,15 +20,15 @@ function Ball:init(x, y, width, height)
     self.width = width
     self.height = height
     -- speed of the ball
-    self.dx = 250
-    self.dy = 250
+    self.dx = randDir(math.random(150, 350))
+    self.dy = randDir(math.random(150, 350))
 end
 
 function Ball:reset()
     self.x = self.origX
     self.y = self.origY
-    self.dx = 250
-    self.dy = 250
+    self.dx = randDir(math.random(150, 350))
+    self.dy = randDir(math.random(150, 350))
 end
 
 function Ball:collides(obj)
@@ -37,8 +44,8 @@ function Ball:collides(obj)
 
     if ballLeft <= objRight and ballRight >= objLeft and ballTop <= objBottom and ballBottom >= objTop then
         -- increase speed and return true
-        self.dx = self.dx + 35
-        self.dy = self.dy + 35
+        self.dx = self.dx + 45
+        self.dy = self.dy + 45
         return true
     else
         return false

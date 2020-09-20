@@ -4,10 +4,10 @@
 - [x] reset ball speed
 - [x] add more speed to ball
 - [x] help screen
-- [x] Sound Effects
-- arrow mark triangles for menu up down stuff
+- [x] Sound Effects - added for menu open and menu option
+- [x] arrow mark triangles for menu up down stuff
+- [x] add randomized start ball velocity and angle
 - add randomized angle after paddle hit
-- add randomized start ball velocity and angle
 
 ## Extras
 
