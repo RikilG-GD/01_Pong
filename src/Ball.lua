@@ -13,6 +13,8 @@ function Ball:init(x, y, width, height)
     -- save original coordinates
     self.origX = x
     self.origY = y
+    self.origWidth = width
+    self.origHeight = height
     -- center position of the ball
     self.x = x
     self.y = y
@@ -22,11 +24,18 @@ function Ball:init(x, y, width, height)
     -- speed of the ball
     self.dx = randDir(math.random(150, 200))
     self.dy = randDir(math.random(100, 200))
+    -- powerup
+    self.powerup = powerups[0]
+    self.powerupTime = 0
 end
 
 function Ball:reset()
     self.x = self.origX
     self.y = self.origY
+    self.width = self.origWidth
+    self.height = self.origHeight
+    self.powerup = powerups[0]
+    self.powerupTime = 0
     self.dx = randDir(math.random(150, 200))
     self.dy = randDir(math.random(100, 200))
 end

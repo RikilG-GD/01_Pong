@@ -6,6 +6,9 @@ function Paddle:init(x, y, width, height, upKey, downKey)
     -- save original coordinates
     self.origX = x
     self.origY = y
+    self.origWidth = width
+    self.origHeight = height
+    self.origSpeed = 250
     --center position of the paddle
     self.x = x
     self.y = y
@@ -13,16 +16,25 @@ function Paddle:init(x, y, width, height, upKey, downKey)
     self.width = width
     self.height = height
     -- speed of the paddle
-    self.dx = 250
-    self.dy = 250
+    self.dx = self.origSpeed
+    self.dy = self.origSpeed
     -- paddle control keys
     self.upKey = upKey
     self.downKey = downKey
+    -- powerup type
+    self.powerup = powerups[0]
+    self.powerupTime = 0
 end
 
 function Paddle:reset()
     self.x = self.origX
     self.y = self.origY
+    self.width = self.origWidth
+    self.height = self.origHeight
+    self.dx = self.origSpeed
+    self.dy = self.origSpeed
+    self.powerup = powerups[0]
+    self.powerupTime = 0
 end
 
 function Paddle:update(dt)

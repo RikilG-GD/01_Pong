@@ -6,6 +6,9 @@ function AiPaddle:init(x, y, width, height)
     -- save original coordinates
     self.origX = x
     self.origY = y
+    self.origWidth = width
+    self.origHeight = height
+    self.origSpeed = 300
     --center position of the paddle
     self.x = x
     self.y = y
@@ -13,20 +16,29 @@ function AiPaddle:init(x, y, width, height)
     self.width = width
     self.height = height
     -- speed of the paddle
-    self.dx = 300 -- not required actually
-    self.dy = 300
+    self.dx = self.origSpeed -- not required actually
+    self.dy = self.origSpeed
+    -- powerup
+    self.powerup = powerups[0]
+    self.powerupTime = 0
 end
 
 function AiPaddle:reset()
     self.x = self.origX
     self.y = self.origY
+    self.width = self.origWidth
+    self.height = self.origHeight
+    self.dx = self.origSpeed -- not required actually
+    self.dy = self.origSpeed
+    self.powerup = powerups[0]
+    self.powerupTime = 0
 end
 
 function AiPaddle:update(dt)
     direction = 'none'
-    if (ball.dx < 0 and ball.y > self.y) or (ball.dx > 0 and self.y < WINDOW_HEIGHT/2-10) then
+    if (ball.dx < 0 and ball.y > self.y) or ((not powerup.active or powerup.dx > 0) and ball.dx > 0 and self.y < WINDOW_HEIGHT/2-10) or (ball.dx > 0 and powerup.active and powerup.dx < 0 and powerup.y > self.y) then
         direction = 'down'
-    elseif (ball.dx < 0 and ball.y < self.y) or (ball.dx > 0 and self.y > WINDOW_HEIGHT/2+10) then
+    elseif (ball.dx < 0 and ball.y < self.y) or ((not powerup.active or powerup.dx > 0) and ball.dx > 0 and self.y > WINDOW_HEIGHT/2+10) or (ball.dx > 0 and powerup.active and powerup.dx < 0 and powerup.y < self.y) then
         direction = 'up'
     end
 

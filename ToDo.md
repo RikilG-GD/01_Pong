@@ -13,15 +13,12 @@
 ## Extras
 
 - PowerUps!!
-  - Paddle size increase
-  - Paddle size decrease
-  - ball speed increase
-  - ball speed decrease
+  - [x] Paddle size increase
+  - [x] Paddle size decrease
+  - [x] paddle speed increase
   - ball size increase
   - hidden ball
   - mid screen cover
-  - paddle speed increase
-  - paddle speed decrease
   - double ball!
   - quad ball!
   - a wall of defence

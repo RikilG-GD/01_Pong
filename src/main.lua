@@ -5,6 +5,7 @@ require 'Paddle'
 require 'AiPaddle'
 require 'Menu'
 require 'PauseMenu'
+require 'Powerup'
 
 WINDOW_WIDTH = 1000
 WINDOW_HEIGHT = 560
@@ -21,6 +22,7 @@ sounds = {
     ['background'] = love.audio.newSource('assets/sounds/Background.mp3', 'static'),
     ['death'] = love.audio.newSource('assets/sounds/Death.wav', 'static'),
     ['powerUp'] = love.audio.newSource('assets/sounds/PowerUp.wav', 'static'),
+    ['powerDown'] = love.audio.newSource('assets/sounds/PowerDown.wav', 'static'),
     ['gameOver'] = love.audio.newSource('assets/sounds/GameOver.wav', 'static'),
     ['menuOpen'] = love.audio.newSource('assets/sounds/MenuOpen.wav', 'static'),
     ['menuOption'] = love.audio.newSource('assets/sounds/MenuOption.wav', 'static')
@@ -95,6 +97,7 @@ function love.load()
     realPlayer = Paddle(30, 80, 8, 120, 'w', 's')
     player1 = realPlayer
     player2 = Paddle(WINDOW_WIDTH-30, WINDOW_HEIGHT-80, 8, 120, 'up', 'down')
+    powerup = Powerup()
     gameOver = 'none'
 
     currentState = gameState.startMenu
@@ -180,12 +183,30 @@ function love.update(dt)
             ball.x = ball.x - (rightLeftDist + 1)
         end
     end
+
+    if powerup.active == false and math.random(1, 50) == 10 then
+        powerup:spawn()
+    end
+    powerup:update(dt)
+    collision = 'none'
+    if powerup:collides(player1) then
+        collision = player1
+    elseif powerup:collides(player2) then
+        collision = player2
+    end
+    if collision ~= 'none' then
+        powerup:apply(collision)
+    end
+    player1.powerup.update(player1, dt)
+    player2.powerup.update(player2, dt)
+    ball.powerup.update(ball, dt)
 end
 
 function love.draw()
     -- wipe screen
     love.graphics.clear(20/255, 20/255, 20/255, 1)
 
+    powerup:render()
     ball:render()
     player1:render()
     player2:render()
