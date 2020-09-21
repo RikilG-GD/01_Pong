@@ -7,7 +7,8 @@
 - [x] Sound Effects - added for menu open and menu option
 - [x] arrow mark triangles for menu up down stuff
 - [x] add randomized start ball velocity and angle
-- add randomized angle after paddle hit
+- [x] Bug: Paddle collision problems when ball collides from underneath or passes 
+  the paddle
 
 ## Extras
 

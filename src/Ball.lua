@@ -20,15 +20,23 @@ function Ball:init(x, y, width, height)
     self.width = width
     self.height = height
     -- speed of the ball
-    self.dx = randDir(math.random(150, 350))
-    self.dy = randDir(math.random(150, 350))
+    self.dx = randDir(math.random(150, 200))
+    self.dy = randDir(math.random(100, 200))
 end
 
 function Ball:reset()
     self.x = self.origX
     self.y = self.origY
-    self.dx = randDir(math.random(150, 350))
-    self.dy = randDir(math.random(150, 350))
+    self.dx = randDir(math.random(150, 200))
+    self.dy = randDir(math.random(100, 200))
+end
+
+function increaseMagnitude(val, increment)
+    if val > 0 then
+        return val + increment
+    else
+        return val - increment
+    end
 end
 
 function Ball:collides(obj)
@@ -44,8 +52,8 @@ function Ball:collides(obj)
 
     if ballLeft <= objRight and ballRight >= objLeft and ballTop <= objBottom and ballBottom >= objTop then
         -- increase speed and return true
-        self.dx = self.dx + 45
-        self.dy = self.dy + 45
+        self.dx = increaseMagnitude(self.dx, 10)
+        self.dy = increaseMagnitude(self.dy, 10)
         return true
     else
         return false

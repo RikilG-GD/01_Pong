@@ -91,10 +91,10 @@ function love.load()
     startMenu = Menu()
     pauseMenu = PauseMenu()
     ball = Ball(WINDOW_WIDTH/2, WINDOW_HEIGHT/2, 10, 10)
-    aiPlayer = AiPaddle(30, 80, 5, 120)
-    realPlayer = Paddle(30, 80, 5, 120, 'w', 's')
+    aiPlayer = AiPaddle(30, 80, 8, 120)
+    realPlayer = Paddle(30, 80, 8, 120, 'w', 's')
     player1 = realPlayer
-    player2 = Paddle(WINDOW_WIDTH-30, WINDOW_HEIGHT-80, 5, 120, 'up', 'down')
+    player2 = Paddle(WINDOW_WIDTH-30, WINDOW_HEIGHT-80, 8, 120, 'up', 'down')
     gameOver = 'none'
 
     currentState = gameState.startMenu
@@ -139,9 +139,46 @@ function love.update(dt)
         player2:update(dt)
     end
 
-    if ball:collides(player1) or ball:collides(player2) then
+    collision = 'none'
+    if ball:collides(player1) then
+        collision = player1
+    elseif ball:collides(player2) then
+        collision = player2
+    end
+
+    if collision ~= 'none' then
         sounds['paddleHit']:play()
-        ball.dx = -ball.dx
+        -- ball-paddle-Dist
+        bottomTopDist = (ball.y+ball.height/2) - (collision.y-collision.height/2)
+        topBottomDist = (collision.y+collision.height/2) - (ball.y-ball.height/2)
+        leftRightDist = (collision.x+collision.width/2) - (ball.x-ball.width/2)
+        rightLeftDist = (ball.x+ball.width/2) - (collision.x-collision.width/2)
+
+        if ball.y > collision.y-collision.height/2 and ball.y < collision.y+collision.height/2 then
+            ball.dx = -ball.dx
+        elseif bottomTopDist < topBottomDist then
+        -- handling corner cases
+            -- collision at top side of paddle
+            if bottomTopDist < leftRightDist or bottomTopDist < rightLeftDist then
+                ball.dy = -ball.dy
+                ball.y = ball.y - (bottomTopDist + 1)
+            else 
+                ball.dx = - ball.dx
+            end
+        else
+            -- collision at the bottom side of the paddle
+            if topBottomDist < leftRightDist or topBottomDist < rightLeftDist then
+                ball.dy = -ball.dy
+                ball.y = ball.y + (topBottomDist + 1)
+            else 
+                ball.dx = -ball.dx
+            end
+        end
+        if ball.dx > 0 then
+            ball.x = ball.x + (leftRightDist + 1)
+        else
+            ball.x = ball.x - (rightLeftDist + 1)
+        end
     end
 end
 
